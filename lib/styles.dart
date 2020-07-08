@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-Color colorOfMessage = Color.fromRGBO(38, 38, 40, 0.8);
+
+Color colorOfMessage = Color.fromRGBO(38, 38, 40, 0.9);
 Color hintBackColor = Color.fromRGBO(6, 6, 6, 1);
 Color hintTextColor = Color.fromRGBO(78, 78, 78, 1);
 Color sendBackColor = Color.fromRGBO(255, 255, 255, 1);
