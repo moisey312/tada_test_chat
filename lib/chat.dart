@@ -217,22 +217,36 @@ class _ChatPageState extends State<ChatPage> {
                               padding: const EdgeInsets.only(
                                   left: 10.0, right: 10.0),
                               child: Form(
-                                child: TextFormField(
-                                  controller: textController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Сообщение...',
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: double.infinity,
+                                    maxWidth: double.infinity,
+                                    maxHeight: 110
                                   ),
-                                  focusNode: _node,
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    reverse: true,
+
+                                    child: TextFormField(
+                                      controller: textController,
+                                      keyboardType: TextInputType.multiline,
+                                      decoration: InputDecoration(
+                                        hintText: 'Сообщение...',
+                                      ),
+                                      maxLines: null,
+                                      focusNode: _node,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          value.length == 0
+                                              ? hasText = false
+                                              : hasText = true;
+                                        });
+                                      },
+                                    ),
                                   ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      value.length == 0
-                                          ? hasText = false
-                                          : hasText = true;
-                                    });
-                                  },
                                 ),
                               ),
                             ),
