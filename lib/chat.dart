@@ -45,7 +45,8 @@ class _ChatPageState extends State<ChatPage> {
       } else {
         if (mounted)
           setState(() {
-            channel = IOWebSocketChannel.connect('ws://pm.tada.team/ws?name=test123');
+            channel =
+                IOWebSocketChannel.connect('ws://pm.tada.team/ws?name=test123');
             networkOn = true;
           });
       }
@@ -57,23 +58,27 @@ class _ChatPageState extends State<ChatPage> {
       print(onError.toString());
     });
     channel.stream.listen((event) {
-      setState(() {
-        Message message = Message.fromJson(json.decode(event), 1, maxId);
-        if (message.name == name) {
-          print(message.text);
-          for (int i = 0; i < messages.length; i++) {
-            if (message == messages[i]) {
+      Message message = Message.fromJson(json.decode(event), 1, maxId);
+      if (message.name == name) {
+        print(message.text);
+        for (int i = 0; i < messages.length; i++) {
+          if (message == messages[i]) {
+            setState(() {
               messages[i].status = 1;
               DatabaseMessages().updateDog(messages[i]);
-            }
+            });
           }
-        } else {
-          maxId += 1;
-          prefs.setInt('maxId', maxId);
+        }
+      } else {
+        maxId += 1;
+        prefs.setInt('maxId', maxId);
+        setState(() {
           DatabaseMessages().insertMessage(message);
           messages.add(message);
-        }
-        if (scrollController.hasClients)
+        });
+      }
+      if (scrollController.hasClients)
+        setState(() {
           Timer(
               Duration(milliseconds: 300),
               () => {
@@ -85,7 +90,7 @@ class _ChatPageState extends State<ChatPage> {
                       curve: Curves.ease,
                     )
                   });
-      });
+        });
     }, onError: (error) {
       print(error.toString());
     });
